@@ -44,12 +44,7 @@ example:
     format = ""
   if $args["--fasta"] != "nil":
     fasta = cstring($args["--fasta"])
-  #[
-  if ($args["--format"]).toUpperAscii == "CRAM":
-    format = "c"
-  elif ($args["--format"]).toUpperAscii == "BAM":
-    format = "b"
-   ]#
+
   if ex.ke == nil:
     stderr.write_line("[bam-filter] error parsing expression:" & $args["<expression>"])
     stderr.write_line($ex.error())

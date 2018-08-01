@@ -68,7 +68,7 @@ example:
 
   for aln in bam:
     ex.clear()
-    discard ke_set_int(ex.ke, "mapq", aln.qual.cint)
+    discard ke_set_int(ex.ke, "mapq", aln.mapping_quality.cint)
     discard ke_set_int(ex.ke, "start", aln.start.cint)
     discard ke_set_int(ex.ke, "pos", (aln.start + 1).cint)
     discard ke_set_int(ex.ke, "flag", (aln.flag).cint)

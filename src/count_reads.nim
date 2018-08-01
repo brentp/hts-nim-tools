@@ -71,7 +71,7 @@ proc internal_count(bam:Bam, mapq:uint8, eflag:uint16, regions:TableRef[string, 
       continue
     var lap:Lapper[region_t] = lapify(regions[chrom])
     for aln in bam.querys(chrom):
-      if aln.qual < mapq: continue
+      if aln.mapping_quality < mapq: continue
       if (aln.flag and eflag) != 0: continue
 
       lap.each_seek(aln.start, aln.stop, inc_count)

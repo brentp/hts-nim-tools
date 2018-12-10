@@ -25,7 +25,7 @@ proc count(v:VCF, chrom:string, maf:float32, chunk_size:int): seq[uint32] =
   var nm = 0
   for variant in v.query(chrom):
     n += 1
-    if variant.info.floats("AF", afs) != Status.OK: continue
+    if variant.info.get("AF", afs) != Status.OK: continue
     if max(afs) < maf: continue
     nm += 1
     var bin = which_bin(variant.start, chunk_size)
@@ -56,7 +56,7 @@ proc check_vcf(q:string, db:string, chunk_size:int, maf:float32) =
   discard open(qv, q)
 
   for variant in qv:
-    if last_chrom == nil:
+    if last_chrom.len == 0:
       last_chrom = $variant.CHROM
     if last_chrom != $variant.CHROM:
       stderr.write_line("[vcf-check] chrom:" & last_chrom)
@@ -66,14 +66,14 @@ proc check_vcf(q:string, db:string, chunk_size:int, maf:float32) =
 
       last_chrom = $variant.CHROM
 
-    if variant.info.floats("AF", afs) != Status.OK: continue
+    if variant.info.get("AF", afs) != Status.OK: continue
     if max(afs) < maf: continue
 
     var bin = which_bin(variant.start, chunk_size)
     q_counts.extend(bin)
     inc(q_counts[bin])
 
-  if last_chrom != nil:
+  if last_chrom.len != 0:
     stderr.write_line("[vcf-check] chrom:" & last_chrom)
     var db_counts = count(dbv, last_chrom, maf, chunk_size)
     write_counts(last_chrom, q_counts, db_counts, chunk_size)

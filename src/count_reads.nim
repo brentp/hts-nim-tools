@@ -22,7 +22,7 @@ proc stop(r: region_t): int {.inline.} = return r.stop
 proc tostring(r: region_t, s:var string) {.inline.} =
   s.set_len(0)
   s.add(r.chrom & "\t" & $r.start & "\t" & $r.stop & "\t")
-  if r.name != nil and r.name != "":
+  if r.name != "":
     s.add(r.name & "\t")
   s.add($r.count)
 
@@ -105,7 +105,7 @@ Options:
   let mapq = parse_int($args["--mapq"])
 
   var fasta: cstring 
-  if $args["--fasta"] != nil:
+  if $args["--fasta"] != "nil":
     fasta = cstring($args["--fasta"])
 
   var

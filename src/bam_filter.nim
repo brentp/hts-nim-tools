@@ -88,25 +88,21 @@ example:
     discard ke_set_int(ex.ke, "is_pair", if f.pair: 1 else: 0)
     discard ke_set_int(ex.ke, "is_proper_pair", if f.proper_pair: 1 else: 0)
 
-    for tag in tags:
-      var a = aln.aux(tag)
-      if a == nil: continue
-      var ai = a.asInt
-      if ai.isSome:
-        discard ke_set_int(ex.ke, "tag_" & tag, ai.get)
-      else:
-        var af = a.asFloat
-        if af.isSome:
-          discard ke_set_real(ex.ke, "tag_" & tag, af.get)
-        else:
-          var sa = a.asString
-          if sa.isSome:
-            discard ke_set_str(ex.ke, "tag_" & tag, sa.get)
+    for itag in tags:
+      var io = tag[int](aln, itag)
+      if io.isSome:
+        discard ke_set_int(ex.ke, "tag_" & itag, io.get)
+        continue
+      var fo = tag[float](aln, itag)
+      if fo.isSome:
+        discard ke_set_real(ex.ke, "tag_" & itag, fo.get)
+        continue
+
     if ex.error != 0:
       stderr.write_line "bad"
       quit(2)
 
-    if not ex.get_bool:
+    if not (ex.bool):
       if ex.error != 0 and len(tags) == 0:
         stderr.write_line "[bam-filter] expression error:", ex.error
         quit(2)

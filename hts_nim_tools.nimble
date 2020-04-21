@@ -1,5 +1,5 @@
 # Package
-version       = "0.1.5"
+version       = "0.2.0"
 author        = "Brent Pedersen"
 description   = "hts-nim command-line tools"
 license       = "MIT"

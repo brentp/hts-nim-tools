@@ -74,7 +74,7 @@ proc internal_count(bam:Bam, mapq:uint8, eflag:uint16, regions:TableRef[string, 
       if aln.mapping_quality < mapq: continue
       if (aln.flag and eflag) != 0: continue
 
-      lap.each_seek(aln.start, aln.stop, inc_count)
+      lap.each_seek(aln.start.int, aln.stop.int, inc_count)
     var s = new_string_of_cap(1000)
     for region in regions[chrom]:
       region.tostring(s)

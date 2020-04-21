@@ -28,7 +28,7 @@ proc count(v:VCF, chrom:string, maf:float32, chunk_size:int): seq[uint32] =
     if variant.info.get("AF", afs) != Status.OK: continue
     if max(afs) < maf: continue
     nm += 1
-    var bin = which_bin(variant.start, chunk_size)
+    var bin = which_bin(variant.start.int, chunk_size)
     counts.extend(bin)
     inc(counts[bin])
   #stderr.write_line("n:" & $n & " nm:" & $nm)
@@ -69,7 +69,7 @@ proc check_vcf(q:string, db:string, chunk_size:int, maf:float32) =
     if variant.info.get("AF", afs) != Status.OK: continue
     if max(afs) < maf: continue
 
-    var bin = which_bin(variant.start, chunk_size)
+    var bin = which_bin(variant.start.int, chunk_size)
     q_counts.extend(bin)
     inc(q_counts[bin])
 

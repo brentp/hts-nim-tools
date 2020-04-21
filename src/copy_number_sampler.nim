@@ -77,7 +77,7 @@ proc internal_sampler(ibam:Bam, obam:var Bam, regions:TableRef[string, seq[cnv]]
       lap = lapify(regions[record.chrom])
       last_chrom = record.chrom
 
-    discard lap.find(record.start, record.stop, res)
+    discard lap.find(record.start.int, record.stop.int, res)
     if len(res) == 0:
         obam.write(record)
         continue

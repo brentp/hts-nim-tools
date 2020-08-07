@@ -84,8 +84,8 @@ proc internal_sampler(ibam:Bam, obam:var Bam, regions:TableRef[string, seq[cnv]]
 
     var po = overlap_p(res[0], record)
 
-    if res[0].prob < 1 and random(1.0) < res[0].prob:
-      if po == 1 or po < 3.0 * random(1.0):
+    if res[0].prob < 1 and rand(1.0) < res[0].prob:
+      if po == 1 or po < 3.0 * rand(1.0):
         obam.write(record)
       continue
 
